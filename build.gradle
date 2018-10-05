@@ -83,6 +83,26 @@ tasks.withType(FindBugs) {
     }
 }
 
+task zip(type: Zip) {
+    from configurations.runtime.allArtifacts.files
+    from configurations.runtime
+    exclude "geronimo-jms_1.1*"
+    exclude "sol-*"
+    exclude "commons-l*"
+    into "thirdparty"
+}
+
+task tar(type: Tar) {
+    from configurations.runtime.allArtifacts.files
+    from configurations.runtime
+    exclude "geronimo-jms_1.1*"
+    exclude "sol-*"
+    exclude "commons-l*"
+    compression = Compression.GZIP
+    extension 'tgz'
+    into "thirdparty"
+}
+
 task copyRuntimeLibs(type: Copy) {
     into "$buildDir/output/lib"
     from configurations.runtime
