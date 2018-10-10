@@ -40,7 +40,7 @@ import com.solacesystems.pubsub.sdkperf.jms.core.JmsSdkperfFactory;
 public class AmqpJmsSdkperfFactory implements JmsSdkperfFactory {
 
 	private static final Log Trace = LogFactory.getLog(AmqpJmsSdkperfFactory.class);
-	public static final String INITIAL_CONTEXT_FACTORY_NAME = "org.apache.qpid.jms.jndi.JmsInitialContextFactory";
+	public  static final String INITIAL_CONTEXT_FACTORY_NAME = "org.apache.qpid.jms.jndi.JmsInitialContextFactory";
 	private static final String CONNECTION_FACTORY_PREFIX = "connectionfactory";
 	
 	public InitialContext createInitialContext(RuntimeProperties rxProps, int clientIdInt) throws Exception {

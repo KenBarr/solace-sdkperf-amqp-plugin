@@ -48,7 +48,10 @@ public class AmqpJms_2_0_Client extends AmqpJmsClient implements CompletionListe
 		prod.send(dest, msg, (CompletionListener) this);
 	}
 	
-	public void onCompletion(Message msg) {}
+	public void onCompletion(Message msg) {
+		Trace.info("CLIENT " + _clientIdStr + " published message asynchronously. Message:" + msg.toString() + "\nCLIENT " + _clientIdStr );
+		_asyncExceptionOccured = false;
+	}
 
 	public void onException(Message msg, Exception e) {
 		Trace.warn("CLIENT " + _clientIdStr + " failed to publish message asynchronously. Message:" + msg.toString() + "\nCLIENT " + _clientIdStr + ": Exception listener error.", e);
