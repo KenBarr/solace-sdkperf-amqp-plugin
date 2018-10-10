@@ -18,7 +18,10 @@ script:
   - newBroker=`curl --request POST --url "https://console.solace.cloud/api/v0/services"  -H "Authorization:Bearer ${SOLACE_CLOUD_TOKEN}"  --header "Content-Type:application/json" --data @data.json`
   - serviceId=`jq '.data.serviceId' <<< $newBroker`
   - serviceId=${serviceId//\"}
-  - serviceInfo=`curl --request GET --url "https://console.solace.cloud/api/v0/services/${serviceId}"  -H "Authorization:Bearer ${SOLACE_CLOUD_TOKEN}"  --header 'Content-Type:application/json'`
+  - echo $serviceInfo
+  - while [ "\"completed\"" != "$(jq .data.adminProgress <<< `curl -H "Authorization:Bearer ${SOLACE_CLOUD_TOKEN}" --url "https://console.solace.cloud/api/v0/services/${serviceId}"`)"  ] ; do echo "`date` Waiting for service
+ up"; sleap 5; done
+  - serviceInfo=`curl -H "Authorization:Bearer ${SOLACE_CLOUD_TOKEN}" --url "https://console.solace.cloud/api/v0/services/${serviceId}"`
   - echo $serviceInfo
   - AMQP_URI=`jq .data.messagingProtocols[3].endPoints[0].uris[0] <<< $serviceInfo`
   - AMQP_URI=${AMQP_URI//\"}
