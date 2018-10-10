@@ -15,8 +15,7 @@ script:
   - tar zxf build/distributions/sol-sdkperf-amqp-plugin-*.tgz --directory ${SDKPERF_HOME}/lib
   - rm ${SDKPERF_HOME}/lib/geronimo-jms_1.1_spec-1.1.1.*
   - echo "{\"name\":\"TestService-${CURENT_DATE}\",\"datacenterId\":\"aws-us-east-1b\",\"partitionId\":\"default\",\"servicePlanId\":\"enterprise-nano-plan\",\"adminState\":\"start\"}" > data.json
-  - cat data.json
-  - newBrocker=`curl --request POST --url "https://console.solace.cloud/api/v0/services"  -H "Authorization:Bearer ${SOLACE_CLOUD_TOKEN}"  --header "Content-Type:application/json" --data @data.json`
+  - newBroker=`curl --request POST --url "https://console.solace.cloud/api/v0/services"  -H "Authorization:Bearer ${SOLACE_CLOUD_TOKEN}"  --header "Content-Type:application/json" --data @data.json`
   - serviceId=`jq '.data.serviceId' <<< $newBroker`
   - serviceId=${serviceId//\"}
   - serviceInfo=`curl --request GET --url "https://console.solace.cloud/api/v0/services/${serviceId}"  -H "Authorization:Bearer ${SOLACE_CLOUD_TOKEN}"  --header 'Content-Type:application/json'`
@@ -26,7 +25,7 @@ script:
   - USERNAME=${USERNAME//\"}
   - PASSWORD=`jq .data.messagingProtocols[3].password <<< $serviceInfo`
   - PASSWORD=${PASSWORD//\"}
-  - test_result=`./sdkperf_java.sh -api=thirdparty -ecc=com.solacesystems.pubsub.sdkperf.jms.amqp.AmqpJms_2_0_Client -cip=${AMQP_URI} -cu=${USERNAME} -cp=${PASSWORD} -sql=testQueue -pql=testQueue -mt=persistent -mr=500 -mn=30000 -msa=500 -oc -rc=-1`
+  - test_result=`${SDKPERF_HOME}/sdkperf_java.sh -api=thirdparty -ecc=com.solacesystems.pubsub.sdkperf.jms.amqp.AmqpJms_2_0_Client -cip=${AMQP_URI} -cu=${USERNAME} -cp=${PASSWORD} -sql=testQueue -pql=testQueue -mt=persistent -mr=500 -mn=30000 -msa=500 -oc -rc=-1`
   - if [ "1" == `echo ${test_result} | grep -c "Messages received across all subscribers = 5000"` ]; then echo HIT; fi
 
 after_success:
