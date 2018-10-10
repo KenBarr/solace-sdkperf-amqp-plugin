@@ -14,6 +14,7 @@ script:
   - ./gradlew clean build tar
   - tar zxf build/distributions/sol-sdkperf-amqp-plugin-*.tgz --directory ${SDKPERF_HOME}/lib
   - rm ${SDKPERF_HOME}/lib/geronimo-jms_1.1_spec-1.1.1.*
+  - rm ${SDKPERF_HOME}/lib/proton-j-*
   - echo "{\"name\":\"TestService-${CURENT_DATE}\",\"datacenterId\":\"aws-us-east-1b\",\"partitionId\":\"default\",\"servicePlanId\":\"enterprise-nano-plan\",\"adminState\":\"start\"}" > data.json
   - newBroker=`curl --request POST --url "https://console.solace.cloud/api/v0/services"  -H "Authorization:Bearer ${SOLACE_CLOUD_TOKEN}"  --header "Content-Type:application/json" --data @data.json`
   - serviceId=`jq '.data.serviceId' <<< $newBroker`
