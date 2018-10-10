@@ -19,12 +19,16 @@ script:
   - serviceId=`jq '.data.serviceId' <<< $newBroker`
   - serviceId=${serviceId//\"}
   - serviceInfo=`curl --request GET --url "https://console.solace.cloud/api/v0/services/${serviceId}"  -H "Authorization:Bearer ${SOLACE_CLOUD_TOKEN}"  --header 'Content-Type:application/json'`
+  - cat $serviceInfo
   - AMQP_URI=`jq .data.messagingProtocols[3].endPoints[0].uris[0] <<< $serviceInfo`
   - AMQP_URI=${AMQP_URI//\"}
+  - cat $AMQP_URI
   - USERNAME=`jq .data.messagingProtocols[3].username <<< $serviceInfo`
   - USERNAME=${USERNAME//\"}
+  - cat $USERNAME
   - PASSWORD=`jq .data.messagingProtocols[3].password <<< $serviceInfo`
   - PASSWORD=${PASSWORD//\"}
+  - cat $PASSWORD
   - test_result=`${SDKPERF_HOME}/sdkperf_java.sh -api=thirdparty -ecc=com.solacesystems.pubsub.sdkperf.jms.amqp.AmqpJms_2_0_Client -cip=${AMQP_URI} -cu=${USERNAME} -cp=${PASSWORD} -sql=testQueue -pql=testQueue -mt=persistent -mr=500 -mn=30000 -msa=500 -oc -rc=-1`
   - if [ "1" == `echo ${test_result} | grep -c "Messages received across all subscribers = 5000"` ]; then echo HIT; fi
 
@@ -32,4 +36,4 @@ after_success:
   - echo "Test Success - Branch($TRAVIS_BRANCH) Pull Request($TRAVIS_PULL_REQUEST) Tag($TRAVIS_TAG)"
 
 after_script:
- - curl --request DELETE --url "https://console.solace.cloud/api/v0/services/${serviceId"}"  -H "Authorization:Bearer ${SOLACE_CLOUD_TOKEN}"  --header 'Content-Type:application/json'
+ - curl --request DELETE --url "https://console.solace.cloud/api/v0/services/${serviceId}"  -H "Authorization:Bearer ${SOLACE_CLOUD_TOKEN}"  --header 'Content-Type:application/json'
