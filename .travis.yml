@@ -14,11 +14,12 @@ script:
   - ./gradlew clean build tar
   - tar zxf build/distributions/sol-sdkperf-amqp-plugin-*.tgz --directory ${SDKPERF_HOME}/lib
   - rm ${SDKPERF_HOME}/lib/geronimo-jms_1.1_spec-1.1.1.*
-  - echo "{\"name\":\"TestService${CURENT_DATE}\",\"datacenterId\":\"aws-us-east-1b\",\"partitionId\":\"default\",\"servicePlanId\":\"enterprise-nano-plan\",\"adminState\":\"start\"}" > makeBroker.json
-  - newBrocker="curl --request POST --url "https://console.solace.cloud/api/v0/services"  -H "Authorization:Bearer ${SOLACE_CLOUD_TOKEN}"  --header "Content-Type:application/json" --data @makeBroker.json"
+  - echo "{\"name\":\"TestService-${CURENT_DATE}\",\"datacenterId\":\"aws-us-east-1b\",\"partitionId\":\"default\",\"servicePlanId\":\"enterprise-nano-plan\",\"adminState\":\"start\"}" > data.json
+  - cat data.json
+  - newBrocker=`curl --request POST --url "https://console.solace.cloud/api/v0/services"  -H "Authorization:Bearer ${SOLACE_CLOUD_TOKEN}"  --header "Content-Type:application/json" --data @data.json`
   - serviceId=`jq '.data.serviceId' <<< $newBroker`
   - serviceId=${serviceId//\"}
-  - serviceInfo="$(curl --request GET --url "https://console.solace.cloud/api/v0/services/${serviceId}"  -H "Authorization:Bearer ${SOLACE_CLOUD_TOKEN}"  --header 'Content-Type:application/json')"
+  - serviceInfo=`curl --request GET --url "https://console.solace.cloud/api/v0/services/${serviceId}"  -H "Authorization:Bearer ${SOLACE_CLOUD_TOKEN}"  --header 'Content-Type:application/json'`
   - AMQP_URI=`jq .data.messagingProtocols[3].endPoints[0].uris[0] <<< $serviceInfo`
   - AMQP_URI=${AMQP_URI//\"}
   - USERNAME=`jq .data.messagingProtocols[3].username <<< $serviceInfo`
