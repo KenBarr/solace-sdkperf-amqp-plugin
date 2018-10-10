@@ -1,17 +1,7 @@
 sudo: false
 language: java
-java:
-  - "1.8"
-
-env:
-  global:
 
 before_install:
-
-addons:
-  apt:
-    packages:
-    - jq
 
 install: true
 
@@ -35,7 +25,7 @@ script:
   - PASSWORD=`jq .data.messagingProtocols[3].password <<< $serviceInfo`
   - PASSWORD=${PASSWORD//\"}
   - test_result=`./sdkperf_java.sh -api=thirdparty -ecc=com.solacesystems.pubsub.sdkperf.jms.amqp.AmqpJms_2_0_Client -cip=${AMQP_URI} -cu=${USERNAME} -cp=${PASSWORD} -sql=testQueue -pql=testQueue -mt=persistent -mr=500 -mn=30000 -msa=500 -oc -rc=-1`
-  - if [ "1" == `echo $test_result | grep -c "Messages received across all subscribers = 5000"` ]; then echo HIT; fi
+  - if [ "1" == `echo ${test_result} | grep -c "Messages received across all subscribers = 5000"` ]; then echo HIT; fi
 
 after_success:
   - echo "Test Success - Branch($TRAVIS_BRANCH) Pull Request($TRAVIS_PULL_REQUEST) Tag($TRAVIS_TAG)"
