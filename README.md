@@ -1,11 +1,11 @@
-[![Build Status](https://travis-ci.org/SolaceLabs/solace-sdkperf-amqp-plugin.svg?branch=development)](https://travis-ci.org/SolaceLabs/solace-sdkperf-amqp-plugin)
+[![Build Status](https://travis-ci.org/SolaceLabs/solace-sdkperf-amqp-plugin.svg?branch=master)](https://travis-ci.org/SolaceLabs/solace-sdkperf-amqp-plugin)
 
 # solace-sdkperf-amqp-plugin
 JMS 2.0/AMQP 1.0 plugin for solace test tool sdkperf_jms
 
 ## INTRODUCTION
 
-The sol-sdkperf-amqp-plugin-8.2.0.1.jar implements the JMS 2.0 specification interface for messaging over the AMQP 1.0 wireline transportation. As such it can be used as a third-party plug-in within Sdkperf to enable performance testing of an AMQP 1.0 message broker.
+The sol-sdkperf-amqp-plugin-8.1.0.1.jar implements the JMS 2.0 specification interface for messaging over the AMQP 1.0 wireline transportation. As such it can be used as a third-party plug-in within Sdkperf to enable performance testing of an AMQP 1.0 message broker.
 
 To establish a connection to thye AMQP broker, you would run Sdkperf as follows. See below for further setup details.
 
@@ -24,11 +24,11 @@ As required, these libraries can be updated to produce new versions of the plug-
 
 ## HOW TO BUILD THE PLUG-IN
 
-To only build the JMS2.0/AMQP1.0 plugin build/libs/sol-sdkperf-amqp-plugin-8.2.0.1.jar: 
+To only build the JMS2.0/AMQP1.0 plugin build/libs/sol-sdkperf-amqp-plugin-8.1.0.1.jar: 
 
     ./gradlew clean build
 
-To build a distribution for deployment into an sdkperf_java test tool build/distributions/sol-sdkperf-amqp-plugin-8.2.0.1.[tgz/zip]
+To build a distribution for deployment into an sdkperf_java test tool build/distributions/sol-sdkperf-amqp-plugin-8.1.0.1.[tgz/zip]
 
     ./gradlew clean build zip tar
 
@@ -59,9 +59,9 @@ Setting up to use this plugin is 3 steps:
 
 3. Extract the distribution in place. 
 
-        tar zxf  sol-sdkperf-amqp-plugin-8.2.0.1.tgz
+        tar zxf  sol-sdkperf-amqp-plugin-8.1.0.1.tgz
         or 
-        unzip sol-sdkperf-amqp-plugin-8.2.0.1.zip
+        unzip sol-sdkperf-amqp-plugin-8.1.0.1.zip
 
 Sdkperf is now ready to be run.
 
