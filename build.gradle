@@ -49,7 +49,7 @@ dependencies {
     compile 'org.bouncycastle:bcpkix-jdk15on:1.54'
     compile 'org.bouncycastle:bcpg-jdk15on:1.54'
     compile 'org.apache.geronimo.specs:geronimo-jms_2.0_spec:1.0-alpha-2'
-    compile 'org.apache.qpid:qpid-jms-client:0.37.0'
+    compile 'org.apache.qpid:qpid-jms-client:0.23.0'
     compile 'commons-io:commons-io:2.4'
     compile 'org.slf4j:slf4j-api:1.7.14'
     testCompile 'org.slf4j:slf4j-simple:1.7.14'
